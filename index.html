@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Treino — Mathias</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* Paleta clara — verde sálvia + areia clara, sem marrom */
+  --bg:          #F7F9F6;
+  --surface:     #FFFFFF;
+  --border:      #E4E8E2;
+  --text:        #2C3530;
+  --text-soft:   #4A5550;
+  --muted:       #8A938E;
+
+  /* Cor primária = sálvia suave */
+  --primary:     #6B9080;
+  --primary-dim: #EAF1ED;
+  --primary-brd: #BDD3C8;
+
+  /* Acentos suaves */
+  --rose:        #C57B7B;
+  --rose-dim:    #FBEDED;
+  --rose-brd:    #ECC9C9;
+
+  --sky:         #6B8FA8;
+  --sky-dim:     #ECF2F6;
+  --sky-brd:     #C5D5E0;
+
+  --sand:        #B8A475;
+  --sand-dim:    #F6F1E5;
+  --sand-brd:    #DDD0AC;
+
+  --lilac:       #9088A8;
+  --lilac-dim:   #F0EEF5;
+  --lilac-brd:   #CFC8DD;
+
+  --peach:       #C48F6E;
+  --peach-dim:   #F8EDE3;
+  --peach-brd:   #E5C8B0;
+
+  --teal:        #6B9999;
+  --teal-dim:    #ECF4F4;
+  --teal-brd:    #BDD5D5;
+
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-body:    'DM Sans', sans-serif;
+  --font-mono:    'DM Mono', monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  background: var(--bg); color: var(--text); font-family: var(--font-body);
+  font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased; overflow-x: hidden;
+}
+.wrapper { width: 100%; max-width: 430px; margin: 0 auto; padding: 0 0 80px; }
+
+/* ═══ HEADER COMPACTO ═══ */
+.header {
+  padding: 16px 18px 14px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+.header-row {
+  display: flex; justify-content: space-between; align-items: baseline;
+}
+.brand {
+  font-family: var(--font-display);
+  font-size: 22px;
+  letter-spacing: 1.5px;
+  color: var(--text);
+}
+.hora {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 1px;
+}
+.quote {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--text-soft);
+  font-style: italic;
+  line-height: 1.45;
+  margin-top: 6px;
+}
+.quote em {
+  color: var(--primary);
+  font-style: normal;
+  font-weight: 500;
+}
+
+/* ═══ RITUAL — compacto, inline ═══ */
+.ritual-bar {
+  display: flex;
+  gap: 6px;
+  padding: 10px 18px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+.ritual-pill {
+  flex: 1;
+  background: var(--primary-dim);
+  border: 1px solid var(--primary-brd);
+  border-radius: 20px;
+  padding: 5px 8px;
+  font-size: 11px;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  font-weight: 500;
+}
+.ritual-pill-icon { font-size: 12px; }
+
+/* ═══ INNER ═══ */
+.inner { padding: 16px 18px 0; }
+
+/* ═══ NAV — primeira coisa ═══ */
+.day-nav { display: grid; grid-template-columns: repeat(6, 1fr); gap: 4px; margin-bottom: 14px; }
+.day-btn {
+  background: var(--surface); border: 1.5px solid var(--border); color: var(--muted);
+  font-family: var(--font-mono); font-size: 10px; padding: 9px 2px; border-radius: 8px;
+  text-align: center; cursor: pointer; transition: all 0.15s; letter-spacing: 0.3px;
+  line-height: 1.4; min-height: 52px; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; -webkit-tap-highlight-color: transparent;
+}
+.day-btn.active {
+  background: var(--primary-dim); border-color: var(--primary); color: var(--primary); font-weight: 600;
+}
+
+/* ═══ FOCO DISCRETO ═══ */
+.focus-strip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  margin-bottom: 14px;
+  font-size: 11px;
+  color: var(--muted);
+}
+.focus-strip-label {
+  font-family: var(--font-mono);
+  letter-spacing: 0.5px;
+  font-size: 10px;
+}
+.focus-strip-items {
+  color: var(--text-soft);
+  font-weight: 500;
+}
+
+/* ═══ TREINO ═══ */
+.treino-block { display: none; }
+.treino-block.visible { display: block; }
+.day-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 12px; flex-wrap: wrap; gap: 8px;
+}
+.day-header-left { display: flex; align-items: center; gap: 10px; }
+.day-label { font-family: var(--font-display); font-size: 28px; color: var(--text); letter-spacing: 1px; }
+.day-tag {
+  font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 4px;
+  letter-spacing: 0.5px; text-transform: uppercase;
+}
+.tag-push   { background: var(--rose-dim); color: var(--rose); border: 1px solid var(--rose-brd); }
+.tag-pull   { background: var(--sky-dim); color: var(--sky); border: 1px solid var(--sky-brd); }
+.tag-legs   { background: var(--primary-dim); color: var(--primary); border: 1px solid var(--primary-brd); }
+.tag-upper  { background: var(--lilac-dim); color: var(--lilac); border: 1px solid var(--lilac-brd); }
+.tag-lower  { background: var(--peach-dim); color: var(--peach); border: 1px solid var(--peach-brd); }
+.tag-full   { background: var(--teal-dim); color: var(--teal); border: 1px solid var(--teal-brd); }
+
+/* ═══ DAY STATS — sets e tempo ═══ */
+.day-stats {
+  display: flex;
+  gap: 6px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 11px;
+  color: var(--muted);
+}
+.day-stat { display: flex; align-items: center; gap: 4px; }
+.day-stat strong { color: var(--text); font-weight: 600; }
+.day-stat-sep { color: var(--border); }
+
+/* ═══ PRIORITY STAR ═══ */
+.priority-star {
+  display: inline-block;
+  color: var(--primary);
+  font-size: 13px;
+  margin-left: 4px;
+  vertical-align: middle;
+}
+
+/* ═══ FALHA — texto simples vermelho ═══ */
+.ex-falha {
+  display: block;
+  margin-top: 7px;
+  font-size: 11px;
+  color: var(--rose);
+  font-weight: 500;
+}
+
+/* ═══ PREP ═══ */
+.prep-block { margin-bottom: 14px; }
+.prep-toggle {
+  display: flex; align-items: center; justify-content: space-between;
+  background: var(--sand-dim); border: 1px solid var(--sand-brd); border-radius: 8px;
+  padding: 11px 14px; cursor: pointer; -webkit-tap-highlight-color: transparent; user-select: none;
+}
+.prep-toggle-left { display: flex; align-items: center; gap: 8px; }
+.prep-toggle-icon { font-size: 16px; }
+.prep-toggle-label { font-size: 13px; font-weight: 600; color: var(--sand); }
+.prep-toggle-sub { font-size: 11px; color: rgba(184,164,117,0.8); margin-top: 1px; }
+.prep-arrow { font-size: 11px; color: var(--sand); transition: transform 0.2s; }
+.prep-arrow.open { transform: rotate(180deg); }
+.prep-content {
+  display: none; background: var(--surface); border: 1px solid var(--sand-brd);
+  border-top: none; border-radius: 0 0 8px 8px; padding: 12px 14px;
+}
+.prep-content.visible { display: block; }
+.prep-section-label {
+  font-family: var(--font-mono); font-size: 9px; color: var(--sand);
+  text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; margin-top: 10px;
+}
+.prep-section-label:first-child { margin-top: 0; }
+.prep-item {
+  display: flex; align-items: flex-start; gap: 8px; margin-bottom: 6px;
+  font-size: 12px; color: var(--text); line-height: 1.45;
+}
+.prep-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--sand); flex-shrink: 0; margin-top: 5px; }
+.prep-time {
+  font-family: var(--font-mono); font-size: 10px; color: var(--muted);
+  margin-left: auto; white-space: nowrap; padding-left: 6px;
+}
+
+/* ═══ EXERCÍCIO ═══ */
+.exercicio {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 8px; padding: 12px 14px; margin-bottom: 8px;
+}
+.exercicio.priority { /* mesmo visual dos demais */ }
+.ex-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px; }
+.ex-nome { font-weight: 600; font-size: 14px; color: var(--text); flex: 1; padding-right: 10px; }
+.ex-series { font-family: var(--font-mono); font-size: 13px; color: var(--primary); white-space: nowrap; font-weight: 500; }
+.ex-reps { font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+.ex-nota {
+  font-size: 12px; color: var(--text-soft); font-style: italic;
+  border-top: 1px solid var(--border); padding-top: 6px; margin-top: 6px;
+}
+.ex-alt { font-size: 11px; color: var(--muted); margin-top: 6px; }
+.ex-alt-label {
+  font-family: var(--font-mono); font-size: 9px; color: var(--sky);
+  background: var(--sky-dim); border: 1px solid var(--sky-brd);
+  padding: 1px 5px; border-radius: 3px; margin-right: 5px; letter-spacing: 0.3px;
+}
+
+/* ═══ CARDIO + TIP ═══ */
+.cardio-block {
+  background: var(--primary-dim);
+  border: 1px solid var(--primary-brd); border-radius: 10px;
+  padding: 14px 16px; margin-top: 14px;
+}
+.cardio-title { font-family: var(--font-display); font-size: 18px; color: var(--primary); letter-spacing: 1px; margin-bottom: 4px; }
+.cardio-desc { font-size: 12px; color: var(--text-soft); line-height: 1.6; }
+.tip-card {
+  background: var(--sand-dim); border: 1px solid var(--sand-brd);
+  border-radius: 8px; padding: 12px 14px; margin-top: 14px;
+  font-size: 12px; color: var(--text-soft); line-height: 1.6;
+}
+.tip-card strong { color: var(--sand); }
+
+/* ═══ SECTION ═══ */
+.section-title {
+  font-family: var(--font-display); font-size: 20px; letter-spacing: 1px;
+  color: var(--muted); margin: 24px 0 10px; padding-bottom: 6px; border-bottom: 1.5px solid var(--border);
+}
+
+/* ═══ SUPLEM ═══ */
+.suplem-grid { display: grid; gap: 6px; }
+.suplem-item {
+  display: flex; align-items: center; gap: 10px; background: var(--surface);
+  border: 1px solid var(--border); border-radius: 7px; padding: 10px 12px;
+}
+.suplem-hora { font-family: var(--font-mono); font-size: 11px; color: var(--primary); min-width: 78px; }
+.suplem-desc { font-size: 13px; color: var(--text); flex: 1; }
+.suplem-dose { font-family: var(--font-mono); font-size: 11px; color: var(--muted); white-space: nowrap; }
+.mel-card { background: var(--sand-dim); border: 1px solid var(--sand-brd); border-radius: 7px; padding: 11px 13px; }
+.mel-top { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
+.mel-nome { font-weight: 600; font-size: 13px; color: var(--sand); }
+.mel-desc { font-size: 11px; color: var(--text-soft); line-height: 1.6; }
+
+/* ═══ DIETA ═══ */
+.refeicao { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; margin-bottom: 8px; }
+.ref-hora { font-family: var(--font-mono); font-size: 11px; color: var(--muted); letter-spacing: 0.5px; margin-bottom: 2px; }
+.ref-nome { font-weight: 600; font-size: 14px; margin-bottom: 5px; color: var(--text); }
+.ref-items { font-size: 13px; color: var(--text-soft); line-height: 1.7; }
+.macros-row {
+  display: flex; gap: 10px; margin-top: 8px; padding-top: 8px;
+  border-top: 1px solid var(--border); flex-wrap: wrap;
+}
+.macro { font-family: var(--font-mono); font-size: 10px; color: var(--muted); }
+.macro span { color: var(--text); font-weight: 500; }
+
+/* ═══ RIR GUIDE — agora no final ═══ */
+.rir-guide {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 8px; padding: 12px 14px; margin-top: 16px;
+}
+.rir-title {
+  font-family: var(--font-mono); font-size: 9px; color: var(--muted);
+  text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;
+}
+.rir-row { display: flex; align-items: center; gap: 10px; margin-bottom: 5px; font-size: 12px; color: var(--text); }
+.rir-badge {
+  font-family: var(--font-mono); font-size: 10px; padding: 2px 8px;
+  border-radius: 4px; min-width: 52px; text-align: center; font-weight: 500;
+}
+.rir0 { background: var(--rose-dim); color: var(--rose); border: 1px solid var(--rose-brd); }
+.rir1 { background: var(--peach-dim); color: var(--peach); border: 1px solid var(--peach-brd); }
+.rir2 { background: var(--primary-dim); color: var(--primary); border: 1px solid var(--primary-brd); }
+.rir3 { background: var(--sky-dim); color: var(--sky); border: 1px solid var(--sky-brd); }
+
+.footer {
+  margin-top: 30px; padding-top: 12px; border-top: 1px solid var(--border);
+  font-size: 10px; color: var(--muted); text-align: center;
+  font-family: var(--font-mono); letter-spacing: 0.5px; line-height: 1.8;
+}
+
+@media print {
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .day-nav { display: none; }
+  .treino-block { display: block !important; }
+  .prep-content { display: block !important; }
+}
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-row">
+      <div class="brand">TREINO</div>
+      <div class="hora" id="hora-atual"></div>
+    </div>
+    <div class="quote" id="quote-frase">A mente conduz, o corpo <em>responde.</em></div>
+  </header>
+
+  <!-- RITUAL PILLS -->
+  <div class="ritual-bar">
+    <div class="ritual-pill"><span class="ritual-pill-icon">💧</span>500ml</div>
+    <div class="ritual-pill"><span class="ritual-pill-icon">☕</span>café 30min</div>
+    <div class="ritual-pill"><span class="ritual-pill-icon">🍳</span>ovos + mel</div>
+  </div>
+
+  <div class="inner">
+
+    <!-- NAV - ABRE NA TELA -->
+    <div class="day-nav">
+      <div class="day-btn active" onclick="showDay('seg',this)">SEG<br>Push</div>
+      <div class="day-btn" onclick="showDay('ter',this)">TER<br>Pull</div>
+      <div class="day-btn" onclick="showDay('qua',this)">QUA<br>Legs</div>
+      <div class="day-btn" onclick="showDay('qui',this)">QUI<br>Upper</div>
+      <div class="day-btn" onclick="showDay('sex',this)">SEX<br>Lower</div>
+      <div class="day-btn" onclick="showDay('full',this)" style="background:var(--teal-dim); border-color:var(--teal-brd); color:var(--teal);">FULL<br>Retomada</div>
+    </div>
+
+    <!-- FOCO DISCRETO -->
+    <div class="focus-strip">
+      <span class="focus-strip-label">FOCO</span>
+      <span class="focus-strip-items">Peito · Costas · Braços · Abdômen</span>
+    </div>
+
+    <!-- ═══════════════ SEG — PUSH ═══════════════ -->
+    <div class="treino-block visible" id="seg">
+      <div class="day-header">
+        <div class="day-header-left">
+          <div class="day-label">SEGUNDA</div>
+          <div class="day-tag tag-push">Push · Peito</div>
+        </div>
+      </div>
+      <div class="day-stats">
+        <div class="day-stat"><strong>6</strong> exercícios</div>
+        <span class="day-stat-sep">·</span>
+        <div class="day-stat"><strong>20</strong> sets</div>
+        <span class="day-stat-sep">·</span>
+        <div class="day-stat">⏱ <strong>~60</strong> min</div>
+      </div>
+
+      <div class="prep-block" style="margin-top:14px;">
+        <div class="prep-toggle" onclick="togglePrep('prep-seg')">
+          <div class="prep-toggle-left">
+            <span class="prep-toggle-icon">🔥</span>
+            <div>
+              <div class="prep-toggle-label">Aquecimento</div>
+              <div class="prep-toggle-sub">~6 min · Peito, ombro, manguito</div>
+            </div>
+          </div>
+          <span class="prep-arrow" id="arrow-prep-seg">▼</span>
+        </div>
+        <div class="prep-content" id="prep-seg">
+          <div class="prep-item"><div class="prep-dot"></div><div>Rotação de ombros para frente e trás — 15× cada</div><div class="prep-time">1 min</div></div>
+          <div class="prep-item"><div class="prep-dot"></div><div>Flexão de braço lenta — 12 reps com ROM completo</div><div class="prep-time">1 min</div></div>
+          <div class="prep-item"><div class="prep-dot"></div><div>Supino inclinado vazio (só a barra) — 2 × 15</div><div class="prep-time">2 min</div></div>
+          <div class="prep-item"><div class="prep-dot"></div><div>Rotação externa com elástico — 12× cada lado</div><div class="prep-time">1 min</div></div>
+          <div class="prep-item"><div class="prep-dot"></div><div>Band pull-apart — 20 reps</div><div class="prep-time">1 min</div></div>
+        </div>
+      </div>
+
+      <div class="exercicio priority">
+        <div class="ex-top"><div class="ex-nome">Supino inclinado com halteres <span class="priority-star">★</span></div><div class="ex-series">4 × 8–10</div></div>
+        <div class="ex-reps">Descanso 2–3 min · RIR 1 (último RIR 0)</div>
+        <div class="ex-nota">Inclinação 30°. Halteres descem ao lado do peito, sobem em arco. Aperta o peito no topo, sem trancar cotovelo.</div>
+        <div class="ex-alt"><span class="ex-alt-label">alt</span>Supino inclinado com barra</div>
+        <div class="ex-falha">Falha no 4° set</div>
+      </div>
+
+      <div class="exercicio priority">
+        <div class="ex-top"><div class="ex-nome">Supino reto com barra <span class="priority-star">★</span></div><div class="ex-series">4 × 8–10</div></div>
+        <div class="ex-reps">Descanso 2–3 min · RIR 1</div>
+        <div class="ex-nota">Pegada na largura dos ombros + 1 palmo. Descida 3s tocando o peito. Cotovelhos a 60° do tronco.</div>
+        <div class="ex-alt"><span class="ex-alt-label">alt</span>Supino reto com halteres</div>
+        <div class="ex-falha">Falha no 4° set</div>
+      </div>
+
+      <div class="exercicio priority">
+        <div class="ex-top"><div class="ex-nome">Crucifixo na polia (cabos cruzando baixo) <span class="priority-star">★</span></div><div class="ex-series">3 × 12–15</div></div>
+        <div class="ex-reps">Descanso 90s · RIR 1</div>
+        <div class="ex-nota">Polia alta, mãos cruzam abaixo da linha do umbigo. Foco na porção inferior do peito — é onde a gordura mais incomoda.</div>
+        <div class="ex-alt"><span class="ex-alt-label">alt</span>Crucifixo reto com halteres no banco plano</div>
+      </div>
+
+      <div class="exercicio">
+        <div class="ex-top"><div class="ex-nome">Desenvolvimento com halteres</div><div class="ex-series">3 × 10–12</div></div>
+        <div class="ex-reps">Descanso 90s · RIR 1–2</div>
+        <div class="ex-nota">Sentado com encosto. Halteres na altura das orelhas no fundo. Sobe controlado, não trava cotovelo no topo.</div>
+        <div class="ex-alt"><span class="ex-alt-label">alt</span>Desenvolvimento militar com barra</div>
+      </div>
+
+      <div class="exercicio">
+        <div class="ex-top"><div class="ex-nome">Elevação lateral com halteres</div><div class="ex-series">4 × 12–15</div></div>
+        <div class="ex-reps">Descanso 60s · RIR 1</div>
+        <div class="ex-nota">Cotovelos levemente flexionados. Sobe até altura dos ombros. Sem swing, sem usar trapézio.</div>
+        <div class="ex-alt"><span class="ex-alt-label">alt</span>Elevação lateral na polia baixa unilateral</div>
+      </div>
+
+      <div class="exercicio">
+        <div class="ex-top"><div class="ex-nome">Tríceps na polia com corda</div><div class="ex-series">3 × 12–15</div></div>
+        <div class="ex-reps">Descanso 60–90s · RIR 1</div>
+        <div class="ex-nota">Cotovelhos fixos ao corpo. Extensão completa, abrindo a corda no final.</div>
+        <div class="ex-alt"><span class="ex-alt-label">alt</span>Tríceps banco (mergulho com peso no colo)</div>
+      </div>
+    </div>
+
+    <!-- ═══════════════ TER — PULL ═══════════════ -->
+    <div class="treino-block" id="ter">
+      <div class="day-header">
+        <div class="day-header-left">
+          <div class="day-label">TERÇA</div>
+          <div class="day-tag tag-pull">Pull · Costas</div>
+        </div>
+      </div>
+      <div class="day-stats">
+        <div class="day-stat"><strong>6</strong> exercícios</div>
+        <span class="day-stat-sep">·</span>
+        <div class="day-stat"><strong>20</strong> sets</div>
+        <span class="day-stat-sep">·</span>
+        <div class="day-stat">⏱ <strong>~60</strong> min</div>
+      </div>
+
+      <div class="prep-block" style="margin-top:14px;">
+        <div class="prep-toggle" onclick="togglePrep('prep-ter')">
+          <div class="prep-toggle-left">
+            <span class="prep-toggle-icon">🔥</span>
+            <div>
+              <div class="prep-toggle-label">Aquecimento</div>
+              <div class="prep-toggle-sub">~6 min · Costas, bíceps, manguito</div>
+            </div>
+          </div>
+          <span class="prep-arrow" id="arrow-prep-ter">▼</span>
+        </div>
+        <div class="prep-content" id="prep-ter">
+          <div class="prep-item"><div class="prep-dot"></div><div>Suspensão passiva na barra — 20–30s</div><div class="prep-time">1 min</div></div>
+          <div class="prep-item"><div class="prep-dot"></div><div>Puxada com elástico — 2 × 15</div><div class="prep-time">2 min</div></div>
+          <div class="prep-item"><div class="prep-dot"></div><div>Retração escapular sem peso — 15 reps lentas</div><div class="prep-time">1 min</div></div>
+          <div class="prep-item"><div class="prep-dot"></div><div>Rotação externa com elástico — 12× cada lado</div><div class="prep-time">1 min</div></div>
+          <div class="prep-item"><div class="prep-dot"></div><div>Rosca direta com elástico — 15 reps leves</div><div class="prep-time">1 min</div></div>
+        </div>
+      </div>
+
+      <div class="exercicio priority">
+        <div class="ex-top"><div class="ex-nome">Barra fixa pronada <span class="priority-star">★</span></div><div class="ex-series">4 × 6–10</div></div>
+        <div class="ex-reps">Descanso 2–3 min · RIR 1 (último RIR 0)</div>
+        <div class="ex-nota">Pegada pronada na largura dos ombros + 1 palmo. Sobe até queixo passar a barra. Costas largas se constroem aqui.</div>
+        <div class="ex-alt"><span class="ex-alt-label">alt</span>Puxada pronada na polia alta</div>
+        <div class="ex-falha">Falha no 4° set</div>
+      </div>
+
+      <div class="exercicio priority">
+        <div class="ex-top"><div class="ex-nome">Remada curvada com barra <span class="priority-star">★</span></div><div class="ex-series">4 × 8–10</div></div>
+        <div class="ex-reps">Descanso 2 min · RIR 1</div>
+        <div class="ex-nota">Tronco a 45°, coluna neutra. Puxa a barra na direção do umbigo. Pausa de meio segundo no topo apertando a escápula.</div>
+        <div class="ex-alt"><span class="ex-alt-label">alt</span>Remada sentado na polia (pegada neutra)</div>
+        <div class="ex-falha">Falha no 4° set</div>
+      </div>
+
+      <div class="exercicio priority">
+        <div class="ex-top"><div class="ex-nome">Puxada aberta na polia alta <span class="priority-star">★</span></div><div class="ex-series">3 × 10–12</div></div>
+        <div class="ex-reps">Descanso 90s · RIR 1</div>
+        <div class="ex-nota">Pegada aberta pronada. Leve inclinação para trás. Puxa barra até clavícula. Foco em abrir a escápula.</div>
+        <div class="ex-alt"><span class="ex-alt-label">alt</span>Puxada neutra (pegada triângulo)</div>
+      </div>
+
+      <div class="exercicio">
+        <div class="ex-top"><div class="ex-nome">Rosca direta com barra</div><div class="ex-series">3 × 10–12</div></div>
+        <div class="ex-reps">Descanso 90s · RIR 1 (último RIR 0)</div>
+        <div class="ex-nota">Cotovelos fixos ao tronco. Sem balançar o corpo. Supina totalmente no topo.</div>
+        <div class="ex-alt"><span class="ex-alt-label">alt</span>Rosca direta com halteres simultâneos</div>
+      </div>
+
+      <div class="exercicio">
+        <div class="ex-top"><div class="ex-nome">Rosca martelo alternada</div><div class="ex-series">3 × 12</div></div>
+        <div class="ex-reps">Descanso 60s · RIR 1–2</div>
+        <div class="ex-nota">Pulso neutro durante todo o movimento. Trabalha braquial — o músculo que dá grossura ao braço.</div>
+        <div class="ex-alt"><span class="ex-alt-label">alt</span>Rosca martelo simultânea</div>
+      </div>
+
+      <div class="exercicio">
+        <div class="ex-top"><div class="ex-nome">Face pull (corda na polia alta)</div><div class="ex-series">3 × 15–20</div></div>
+        <div class="ex-reps">Descanso 60s · RIR 2</div>
+        <div class="ex-nota">Manguito + deltóide posterior + saúde postural. Puxa até altura dos olhos, cotovelhos para fora e para cima.</div>
+        <div class="ex-alt"><span class="ex-alt-label">alt</span>Crucifixo invertido com halteres</div>
+      </div>
+    </div>
+
+    <!-- ═══════════════ QUA — LEGS + CORE ═══════════════ -->
+    <div class="treino-block" id="qua">
+      <div class="day-header">
+        <div class="day-header-left">
+          <div class="day-label">QUARTA</div>
+          <div class="day-tag tag-legs">Legs + Core</div>
+        </div>
+      </div>
+      <div class="day-stats">
+        <div class="day-stat"><strong>7</strong> exercícios</div>
+        <span class="day-stat-sep">·</span>
+        <div class="day-stat"><strong>23</strong> sets</div>
+        <span class="day-stat-sep">·</span>
+        <div class="day-stat">⏱ <strong>~70</strong> min</div>
+      </div>
+
+      <div class="prep-block" style="margin-top:14px;">
+        <div class="prep-toggle" onclick="togglePrep('prep-qua')">
+          <div class="prep-toggle-left">
+            <span class="prep-toggle-icon">🔥</span>
+            <div>
+              <div class="prep-toggle-label">Aquecimento</div>
+              <div class="prep-toggle-sub">~8 min · Quadril, joelho, tornozelo</div>
+            </div>
+          </div>
+          <span class="prep-arrow" id="arrow-prep-qua">▼</span>
+        </div>
+        <div class="prep-content" id="prep-qua">
+          <div class="prep-item"><div class="prep-dot"></div><div>Agachamento sem peso — 2 × 15</div><div class="prep-time">2 min</div></div>
+          <div class="prep-item"><div class="prep-dot"></div><div>Avanço alternado sem peso — 10× cada lado</div><div class="prep-time">2 min</div></div>
+          <div class="prep-item"><div class="prep-dot"></div><div>Glúteo com elástico — 15 reps cada lado</div><div class="prep-time">1.5 min</div></div>
+          <div class="prep-item"><div class="prep-dot"></div><div>Mobilidade de tornozelo na parede — 10× cada</div><div class="prep-time">1 min</div></div>
+          <div class="prep-item"><div class="prep-dot"></div><div>Cadeira extensora 1 × 20 muito leve</div><div class="prep-time">1.5 min</div></div>
+        </div>
+      </div>
+
+      <div class="exercicio">
+        <div class="ex-top"><div class="ex-nome">Agachamento livre com barra</div><div class="ex-series">4 × 6–8</div></div>
+        <div class="ex-reps">Descanso 3 min · RIR 1</div>
+        <div class="ex-nota">Pés na largura dos ombros. Desce até paralelo ou abaixo. Joelhos seguem a direção dos pés.</div>
+        <div class="ex-alt"><span class="ex-alt-label">alt</span>Agachamento Smith ou hack squat</div>
+        <div class="ex-falha">Falha no 4° set</div>
+      </div>
+
+      <div class="exercicio">
+        <div class="ex-top"><div class="ex-nome">Leg press 45°</div><div class="ex-series">3 × 10–12</div></div>
+        <div class="ex-reps">Descanso 2 min · RIR 1–2</div>
+        <div class="ex-nota">Pés na largura dos ombros, meio da plataforma. Desce até 90° no joelho. Não trava no topo.</div>
+        <div class="ex-alt"><span class="ex-alt-label">alt</span>Agachamento goblet com halter</div>
+      </div>
+
+      <div class="exercicio">
+        <div class="ex-top"><div class="ex-nome">Stiff com halteres</div><div class="ex-series">3 × 10–12</div></div>
+        <div class="ex-reps">Descanso 2 min · RIR 1</div>
+        <div class="ex-nota">Joelhos levemente flexionados, quadril para trás. Sente o isquio alongar. Coluna neutra.</div>
+        <div class="ex-alt"><span class="ex-alt-label">alt</span>Stiff com barra</div>
+      </div>
+
+      <div class="exercicio">
+        <div class="ex-top"><div class="ex-nome">Cadeira flexora</div><div class="ex-series">3 × 12</div></div>
+        <div class="ex-reps">Descanso 90s · RIR 1–2</div>
+        <div class="ex-nota">Contrai glúteo durante o movimento. Descida lenta 3s.</div>
+        <div class="ex-alt"><span class="ex-alt-label">alt</span>Curl femoral em pé na polia</div>
+      </div>
+
+      <div class="exercicio">
+        <div class="ex-top"><div class="ex-nome">Panturrilha em pé</div><div class="ex-series">4 × 15–20</div></div>
+        <div class="ex-reps">Descanso 60s · RIR 0–1</div>
+        <div class="ex-nota">Amplitude total. Pausa de 1s no fundo.</div>
+        <div class="ex-alt"><span class="ex-alt-label">alt</span>Panturrilha no leg press</div>
+        <div class="ex-falha">Falha em todos</div>
+      </div>
+
+      <div style="margin-top:18px; padding-top:14px; border-top:2px dashed var(--border);">
+        <div style="font-family:var(--font-display); font-size:18px; color:var(--text); letter-spacing:1px; margin-bottom:10px;">CORE — fim do treino</div>
+
+        <div class="exercicio">
+          <div class="ex-top"><div class="ex-nome">Prancha frontal</div><div class="ex-series">3 × 45–60s</div></div>
+          <div class="ex-reps">Descanso 60s</div>
+          <div class="ex-nota">Cotovelos abaixo dos ombros. Glúteo contraído, lombar neutra. Não eleva o quadril.</div>
+        </div>
+
+        <div class="exercicio">
+          <div class="ex-top"><div class="ex-nome">Abdominal na polia (crunch ajoelhado)</div><div class="ex-series">3 × 12–15</div></div>
+          <div class="ex-reps">Descanso 60s · RIR 1</div>
+          <div class="ex-nota">Corda na polia alta, ajoelhado. Flexiona a coluna trazendo o peito em direção aos joelhos. Não puxa com o braço.</div>
+          <div class="ex-alt"><span class="ex-alt-label">alt</span>Abdominal supra no chão com carga no peito</div>
+        </div>
+      </div>
+
+      <div class="tip-card">
+        <strong>💡 Por que core aqui?</strong><br>
+        Core forte não queima gordura abdominal, mas o transverso abdominal (músculo profundo) "fecha" a cintura visualmente quando o BF baixa. Você ganha aparência mais enxuta sem necessariamente ter perdido mais gordura.
+      </div>
+    </div>
+
+    <!-- ═══════════════ QUI — UPPER ═══════════════ -->
+    <div class="treino-block" id="qui">
+      <div class="day-header">
+        <div class="day-header-left">
+          <div class="day-label">QUINTA</div>
+          <div class="day-tag tag-upper">Upper · Volume</div>
+        </div>
+      </div>
+      <div class="day-stats">
+        <div class="day-stat"><strong>6</strong> exercícios</div>
+        <span class="day-stat-sep">·</span>
+        <div class="day-stat"><strong>20</strong> sets</div>
+        <span class="day-stat-sep">·</span>
+        <div class="day-stat">⏱ <strong>~60</strong> min</div>
+      </div>
+
+      <div class="prep-block" style="margin-top:14px;">
+        <div class="prep-toggle" onclick="togglePrep('prep-qui')">
+          <div class="prep-toggle-left">
+            <span class="prep-toggle-icon">🔥</span>
+            <div>
+              <div class="prep-toggle-label">Aquecimento</div>
+              <div class="prep-toggle-sub">~6 min · Todo o tronco</div>
+            </div>
+          </div>
+          <span class="prep-arrow" id="arrow-prep-qui">▼</span>
+        </div>
+        <div class="prep-content" id="prep-qui">
+          <div class="prep-item"><div class="prep-dot"></div><div>Band pull-apart — 20 reps</div><div class="prep-time">1 min</div></div>
+          <div class="prep-item"><div class="prep-dot"></div><div>Supino reto vazio ou elástico — 1 × 15</div><div class="prep-time">1 min</div></div>
+          <div class="prep-item"><div class="prep-dot"></div><div>Remada com elástico — 1 × 15</div><div class="prep-time">1 min</div></div>
+          <div class="prep-item"><div class="prep-dot"></div><div>Suspensão passiva na barra — 20s</div><div class="prep-time">45s</div></div>
+          <div class="prep-item"><div class="prep-dot"></div><div>Rotação externa com elástico — 12× cada</div><div class="prep-time">1 min</div></div>
+        </div>
+      </div>
+
+      <div class="exercicio priority">
+        <div class="ex-top"><div class="ex-nome">Supino reto com halteres <span class="priority-star">★</span></div><div class="ex-series">4 × 8–10</div></div>
+        <div class="ex-reps">Descanso 2 min · RIR 1</div>
+        <div class="ex-nota">Variação do reto da segunda. Halteres permitem ROM maior — fundo do movimento alonga mais o peito.</div>
+        <div class="ex-alt"><span class="ex-alt-label">alt</span>Supino reto com barra</div>
+        <div class="ex-falha">Falha no 4° set</div>
+      </div>
+
+      <div class="exercicio priority">
+        <div class="ex-top"><div class="ex-nome">Remada cavalinho (T-bar) <span class="priority-star">★</span></div><div class="ex-series">4 × 8–10</div></div>
+        <div class="ex-reps">Descanso 2 min · RIR 1</div>
+        <div class="ex-nota">Pega neutra. Puxa até o abdômen apertando as escápulas. Costas grossas se constroem com remada pesada.</div>
+        <div class="ex-alt"><span class="ex-alt-label">alt</span>Remada unilateral com halter apoiado no banco</div>
+      </div>
+
+      <div class="exercicio">
+        <div class="ex-top"><div class="ex-nome">Crucifixo reto com halteres</div><div class="ex-series">3 × 12–15</div></div>
+        <div class="ex-reps">Descanso 90s · RIR 1</div>
+        <div class="ex-nota">Cotovelhos semi-flexionados. Foco no alongamento do peito no fundo. Aperta no topo sem juntar halteres.</div>
+        <div class="ex-alt"><span class="ex-alt-label">alt</span>Crucifixo na polia (cruzando na altura do peito)</div>
+      </div>
+
+      <div class="exercicio">
+        <div class="ex-top"><div class="ex-nome">Desenvolvimento na máquina</div><div class="ex-series">3 × 10–12</div></div>
+        <div class="ex-reps">Descanso 90s · RIR 1–2</div>
+        <div class="ex-nota">Pega neutra se a máquina permitir. Movimento controlado, foco no deltóide anterior e medial.</div>
+        <div class="ex-alt"><span class="ex-alt-label">alt</span>Desenvolvimento com halteres sentado</div>
+      </div>
+
+      <div class="exercicio">
+        <div class="ex-top"><div class="ex-nome">Rosca scott (barra W ou EZ)</div><div class="ex-series">3 × 10–12</div></div>
+        <div class="ex-reps">Descanso 90s · RIR 1</div>
+        <div class="ex-nota">Banco scott apoia o cotovelo — isola o bíceps. Desce 3s, sobe controlado. Sem ego.</div>
+        <div class="ex-alt"><span class="ex-alt-label">alt</span>Rosca concentrada com halter</div>
+        <div class="ex-falha">Falha no 3° set</div>
+      </div>
+
+      <div class="exercicio">
+        <div class="ex-top"><div class="ex-nome">Tríceps testa com barra (EZ)</div><div class="ex-series">3 × 10–12</div></div>
+        <div class="ex-reps">Descanso 90s · RIR 1</div>
+        <div class="ex-nota">Deitado no banco, barra desce até a testa. Cotovelhos não saem da posição. Trabalha cabeça longa do tríceps.</div>
+        <div class="ex-alt"><span class="ex-alt-label">alt</span>Tríceps francês com halter (segurando 1 com as duas mãos)</div>
+        <div class="ex-falha">Falha no 3° set</div>
+      </div>
+    </div>
+
+    <!-- ═══════════════ SEX — LOWER + Z2 ═══════════════ -->
+    <div class="treino-block" id="sex">
+      <div class="day-header">
+        <div class="day-header-left">
+          <div class="day-label">SEXTA</div>
+          <div class="day-tag tag-lower">Lower + Z2</div>
+        </div>
+      </div>
+      <div class="day-stats">
+        <div class="day-stat"><strong>5</strong> exercícios + cardio</div>
+        <span class="day-stat-sep">·</span>
+        <div class="day-stat"><strong>18</strong> sets</div>
+        <span class="day-stat-sep">·</span>
+        <div class="day-stat">⏱ <strong>~75</strong> min</div>
+      </div>
+
+      <div class="prep-block" style="margin-top:14px;">
+        <div class="prep-toggle" onclick="togglePrep('prep-sex')">
+          <div class="prep-toggle-left">
+            <span class="prep-toggle-icon">🔥</span>
+            <div>
+              <div class="prep-toggle-label">Aquecimento</div>
+              <div class="prep-toggle-sub">~8 min · Quadril, glúteo, lombar</div>
+            </div>
+          </div>
+          <span class="prep-arrow" id="arrow-prep-sex">▼</span>
+        </div>
+        <div class="prep-content" id="prep-sex">
+          <div class="prep-item"><div class="prep-dot"></div><div>Agachamento sumô sem peso — 15 reps</div><div class="prep-time">1 min</div></div>
+          <div class="prep-item"><div class="prep-dot"></div><div>Good morning sem carga (bastão) — 15 reps</div><div class="prep-time">1 min</div></div>
+          <div class="prep-item"><div class="prep-dot"></div><div>Hip thrust sem peso — 20 reps</div><div class="prep-time">1 min</div></div>
+          <div class="prep-item"><div class="prep-dot"></div><div>Hip flexor stretch (cavaleiro) — 30s cada lado</div><div class="prep-time">1 min</div></div>
+          <div class="prep-item"><div class="prep-dot"></div><div>Cat-cow (gato-vaca) — 10 ciclos</div><div class="prep-time">1 min</div></div>
+          <div class="prep-item"><div class="prep-dot"></div><div>Terra muito leve (30% da carga) — 1 × 10</div><div class="prep-time">2 min</div></div>
+        </div>
+      </div>
+
+      <div class="exercicio">
+        <div class="ex-top"><div class="ex-nome">Levantamento terra convencional</div><div class="ex-series">4 × 5–6</div></div>
+        <div class="ex-reps">Descanso 3–4 min · RIR 1–2</div>
+        <div class="ex-nota">Pés na largura do quadril. Barra encostada na canela. Coluna neutra, peito para cima. Puxa empurrando o chão.</div>
+        <div class="ex-alt"><span class="ex-alt-label">alt</span>Terra sumô (pés bem abertos) ou terra no Smith</div>
+      </div>
+
+      <div class="exercicio">
+        <div class="ex-top"><div class="ex-nome">Hip thrust com barra</div><div class="ex-series">4 × 10–12</div></div>
+        <div class="ex-reps">Descanso 90s · RIR 0–1</div>
+        <div class="ex-nota">Encosto do banco na borda das escápulas. Pés firmes no chão. Sobe apertando o glúteo, pausa de 1s no topo. Não hiperextende lombar.</div>
+        <div class="ex-alt"><span class="ex-alt-label">alt</span>Hip thrust no Smith</div>
+        <div class="ex-falha">Falha no 4° set</div>
+      </div>
+
+      <div class="exercicio">
+        <div class="ex-top"><div class="ex-nome">Avanço com halteres</div><div class="ex-series">3 × 10/lado</div></div>
+        <div class="ex-reps">Descanso 90s · RIR 1</div>
+        <div class="ex-nota">Passo grande para frente. Joelho do fundo quase toca o chão. Tronco ereto. Sobe apertando o glúteo da perna da frente.</div>
+        <div class="ex-alt"><span class="ex-alt-label">alt</span>Avanço com barra ou no Smith</div>
+      </div>
+
+      <div class="exercicio">
+        <div class="ex-top"><div class="ex-nome">Cadeira extensora</div><div class="ex-series">3 × 12–15</div></div>
+        <div class="ex-reps">Descanso 90s · RIR 1</div>
+        <div class="ex-nota">Pico de contração no topo, segura 1s. Descida 3s.</div>
+        <div class="ex-alt"><span class="ex-alt-label">alt</span>Avanço estático com halter</div>
+      </div>
+
+      <div class="exercicio">
+        <div class="ex-top"><div class="ex-nome">Panturrilha sentado</div><div class="ex-series">4 × 15</div></div>
+        <div class="ex-reps">Descanso 60s · RIR 0</div>
+        <div class="ex-nota">Trabalha o sóleo. Amplitude máxima, pausa 1s no fundo.</div>
+        <div class="ex-alt"><span class="ex-alt-label">alt</span>Panturrilha em pé no degrau (bodyweight)</div>
+        <div class="ex-falha">Falha em todos</div>
+      </div>
+
+      <div class="cardio-block">
+        <div class="cardio-title">🚶 Cardio Zona 2</div>
+        <div class="cardio-desc">
+          <strong>20 min</strong> após o treino · Esteira inclinada (5%) caminhando ou bike leve<br>
+          <strong>FC alvo:</strong> 130–140 bpm · você consegue conversar com um pouco de esforço<br>
+          <strong>Objetivo:</strong> mobilização de gordura visceral sem comprometer recuperação muscular
+        </div>
+      </div>
+
+      <div class="tip-card">
+        <strong>💡 Por que Z2 e não HIIT?</strong><br>
+        Zona 2 oxida gordura como substrato preferencial. HIIT queima mais calorias totais mas usa mais glicogênio e atrapalha a recuperação. Para você que treina pesado 5×/sem, Z2 é cirúrgico.
+      </div>
+    </div>
+
+    <!-- ═══════════════ FULL ═══════════════ -->
+    <div class="treino-block" id="full">
+      <div class="day-header">
+        <div class="day-header-left">
+          <div class="day-label">FULL BODY</div>
+          <div class="day-tag tag-full">Retomada</div>
+        </div>
+      </div>
+      <div class="day-stats">
+        <div class="day-stat"><strong>7</strong> exercícios</div>
+        <span class="day-stat-sep">·</span>
+        <div class="day-stat"><strong>20</strong> sets</div>
+        <span class="day-stat-sep">·</span>
+        <div class="day-stat">⏱ <strong>~45</strong> min</div>
+      </div>
+
+      <div style="background:var(--teal-dim); border:1px solid var(--teal-brd); border-radius:8px; padding:12px 14px; margin: 14px 0; font-size:12px; color:var(--teal); line-height:1.55;">
+        <strong style="font-size:13px;">⚡ Quando usar</strong><br>
+        Após 3+ dias sem treinar. Volta gradual, sem ego. <strong>RIR 2–3 em tudo</strong> — reativar, não destruir.
+      </div>
+
+      <div class="prep-block">
+        <div class="prep-toggle" onclick="togglePrep('prep-full')">
+          <div class="prep-toggle-left">
+            <span class="prep-toggle-icon">🔥</span>
+            <div>
+              <div class="prep-toggle-label">Aquecimento</div>
+              <div class="prep-toggle-sub">~5 min · Corpo inteiro</div>
+            </div>
+          </div>
+          <span class="prep-arrow" id="arrow-prep-full">▼</span>
+        </div>
+        <div class="prep-content" id="prep-full">
+          <div class="prep-item"><div class="prep-dot"></div><div>Agachamento sem peso — 2 × 15</div><div class="prep-time">1.5 min</div></div>
+          <div class="prep-item"><div class="prep-dot"></div><div>Rotação de ombros + braços cruzados — 15× cada</div><div class="prep-time">1 min</div></div>
+          <div class="prep-item"><div class="prep-dot"></div><div>Flexão de braço leve — 10 reps com ROM completo</div><div class="prep-time">1 min</div></div>
+          <div class="prep-item"><div class="prep-dot"></div><div>Band pull-apart — 15 reps</div><div class="prep-time">1 min</div></div>
+          <div class="prep-item"><div class="prep-dot"></div><div>Mobilidade de tornozelo na parede — 8× cada</div><div class="prep-time">30s</div></div>
+        </div>
+      </div>
+
+      <div class="exercicio">
+        <div class="ex-top"><div class="ex-nome">Agachamento livre ou goblet</div><div class="ex-series">3 × 10</div></div>
+        <div class="ex-reps">Descanso 90s · RIR 2–3</div>
+        <div class="ex-nota">Acorda o corpo inteiro. Carga moderada, sem ego. Joelhos alinhados com pés.</div>
+        <div class="ex-alt"><span class="ex-alt-label">alt</span>Agachamento goblet com halter</div>
+      </div>
+
+      <div class="exercicio">
+        <div class="ex-top"><div class="ex-nome">Supino reto (barra ou halteres)</div><div class="ex-series">3 × 10</div></div>
+        <div class="ex-reps">Descanso 90s · RIR 2–3</div>
+        <div class="ex-nota">Foco em conexão mente-músculo, não no PR. Descida controlada 2–3s.</div>
+        <div class="ex-alt"><span class="ex-alt-label">alt</span>Flexão de braço com pés elevados</div>
+      </div>
+
+      <div class="exercicio">
+        <div class="ex-top"><div class="ex-nome">Remada curvada com barra</div><div class="ex-series">3 × 10</div></div>
+        <div class="ex-reps">Descanso 90s · RIR 2–3</div>
+        <div class="ex-nota">Tronco a 45°, puxar no umbigo. Escápula fecha no topo.</div>
+        <div class="ex-alt"><span class="ex-alt-label">alt</span>Remada unilateral com halter</div>
+      </div>
+
+      <div class="exercicio">
+        <div class="ex-top"><div class="ex-nome">Desenvolvimento com halteres</div><div class="ex-series">3 × 12</div></div>
+        <div class="ex-reps">Descanso 90s · RIR 2–3</div>
+        <div class="ex-nota">Arco neutro, sem travar cotovelos. Core firme.</div>
+        <div class="ex-alt"><span class="ex-alt-label">alt</span>Desenvolvimento em pé com halteres</div>
+      </div>
+
+      <div class="exercicio">
+        <div class="ex-top"><div class="ex-nome">Stiff com halteres</div><div class="ex-series">3 × 12</div></div>
+        <div class="ex-reps">Descanso 90s · RIR 2–3</div>
+        <div class="ex-nota">Sente o isquio alongar. Quadril para trás, joelhos semi-flexionados.</div>
+        <div class="ex-alt"><span class="ex-alt-label">alt</span>Good morning com bastão</div>
+      </div>
+
+      <div class="exercicio">
+        <div class="ex-top"><div class="ex-nome">Rosca direta + Tríceps corda</div><div class="ex-series">2 × 12 (superset)</div></div>
+        <div class="ex-reps">Descanso 60s entre supersets · RIR 2</div>
+        <div class="ex-nota">Rosca primeiro, tríceps direto na sequência. Economiza tempo.</div>
+        <div class="ex-alt"><span class="ex-alt-label">alt</span>Rosca + tríceps banco com halteres</div>
+      </div>
+
+      <div class="exercicio">
+        <div class="ex-top"><div class="ex-nome">Panturrilha em pé</div><div class="ex-series">3 × 20</div></div>
+        <div class="ex-reps">Descanso 60s · RIR 1–2</div>
+        <div class="ex-nota">Amplitude total, pausa 1s no fundo.</div>
+        <div class="ex-alt"><span class="ex-alt-label">alt</span>Panturrilha no degrau (bodyweight)</div>
+      </div>
+
+      <div class="tip-card">
+        <strong>💡 Lembre:</strong> não aumentar carga nesse dia. Volume moderado + ROM completo reativa tudo sem te arrebentar. No dia seguinte retoma o PPLUL normal.
+      </div>
+    </div>
+
+    <!-- SUPLEMENTAÇÃO -->
+    <div class="section-title">Suplementação</div>
+    <div class="suplem-grid">
+      <div class="suplem-item">
+        <div class="suplem-hora">07h00 · pré</div>
+        <div class="suplem-desc">Café preto</div>
+        <div class="suplem-dose">sem açúcar</div>
+      </div>
+      <div class="mel-card">
+        <div class="mel-top">
+          <span style="font-size:16px">🍯</span>
+          <div class="mel-nome">Composto Imunidade — Casa Roncador</div>
+        </div>
+        <div class="mel-desc">Mel orgânico + geleia real + própolis + pólen · 2 col. de chá no café da manhã · Suporte imune e antioxidante — tomar junto com os ovos</div>
+      </div>
+      <div class="suplem-item">
+        <div class="suplem-hora">Pós-treino</div>
+        <div class="suplem-desc">Whey protein + creatina monoidratada</div>
+        <div class="suplem-dose">30g + 5g</div>
+      </div>
+      <div class="suplem-item">
+        <div class="suplem-hora">Almoço</div>
+        <div class="suplem-desc">Ômega-3 EPA+DHA + D3 + K2</div>
+        <div class="suplem-dose">2g / c/ gordura</div>
+      </div>
+      <div class="suplem-item">
+        <div class="suplem-hora">Noite</div>
+        <div class="suplem-desc">Magnésio bisglicinato</div>
+        <div class="suplem-dose">300mg</div>
+      </div>
+    </div>
+
+    <!-- DIETA -->
+    <div class="section-title">Dieta — Dia de Treino</div>
+    <div class="refeicao">
+      <div class="ref-hora">06h30 · Café da manhã</div>
+      <div class="ref-nome">Ovos + frutas</div>
+      <div class="ref-items">3 ovos · 1 fruta (banana, mamão ou berries) · Composto de mel 2 col. de chá</div>
+      <div class="macros-row">
+        <div class="macro">P <span>~25g</span></div><div class="macro">C <span>~25g</span></div>
+        <div class="macro">G <span>~15g</span></div><div class="macro">≈ <span>330 kcal</span></div>
+      </div>
+    </div>
+    <div class="refeicao">
+      <div class="ref-hora">10h00 · Pós-treino</div>
+      <div class="ref-nome">Whey + carboidrato</div>
+      <div class="ref-items">30g whey + 5g creatina · 1 banana ou punhado de aveia</div>
+      <div class="macros-row">
+        <div class="macro">P <span>~30g</span></div><div class="macro">C <span>~30g</span></div>
+        <div class="macro">G <span>~3g</span></div><div class="macro">≈ <span>265 kcal</span></div>
+      </div>
+    </div>
+    <div class="refeicao">
+      <div class="ref-hora">13h00 · Almoço</div>
+      <div class="ref-nome">Marmita — proteína + arroz + legumes</div>
+      <div class="ref-items">150g frango / patinho / tilápia · 100g arroz cozido · Legumes refogados · Fio de azeite</div>
+      <div class="macros-row">
+        <div class="macro">P <span>~45g</span></div><div class="macro">C <span>~55g</span></div>
+        <div class="macro">G <span>~10g</span></div><div class="macro">≈ <span>490 kcal</span></div>
+      </div>
+    </div>
+    <div class="refeicao">
+      <div class="ref-hora">16h00 · Lanche</div>
+      <div class="ref-nome">Snack proteico</div>
+      <div class="ref-items">Iogurte grego integral 170g + castanhas ou amendoim</div>
+      <div class="macros-row">
+        <div class="macro">P <span>~20g</span></div><div class="macro">C <span>~12g</span></div>
+        <div class="macro">G <span>~14g</span></div><div class="macro">≈ <span>250 kcal</span></div>
+      </div>
+    </div>
+    <div class="refeicao">
+      <div class="ref-hora">20h00 · Jantar</div>
+      <div class="ref-nome">Bowl / salada completa</div>
+      <div class="ref-items">150g proteína (ovo, atum, frango ou carne moída) · Folhas + quinoa ou grão-de-bico · Azeite + limão</div>
+      <div class="macros-row">
+        <div class="macro">P <span>~40g</span></div><div class="macro">C <span>~30g</span></div>
+        <div class="macro">G <span>~12g</span></div><div class="macro">≈ <span>385 kcal</span></div>
+      </div>
+    </div>
+    <div class="refeicao">
+      <div class="ref-hora">22h00 · Opcional</div>
+      <div class="ref-nome">Caseína noturna</div>
+      <div class="ref-items">Queijo cottage 150g — se o treino foi pesado ou acordar com fome</div>
+      <div class="macros-row">
+        <div class="macro">P <span>~18g</span></div><div class="macro">C <span>~5g</span></div>
+        <div class="macro">G <span>~3g</span></div><div class="macro">≈ <span>120 kcal</span></div>
+      </div>
+    </div>
+
+    <!-- RIR no final -->
+    <div class="rir-guide">
+      <div class="rir-title">Guia RIR — Repetições em Reserva</div>
+      <div class="rir-row"><span class="rir-badge rir0">RIR 0</span> Falha concêntrica — último set</div>
+      <div class="rir-row"><span class="rir-badge rir1">RIR 1</span> Quase falha — sets pesados</div>
+      <div class="rir-row"><span class="rir-badge rir2">RIR 2</span> Controlado — volume</div>
+      <div class="rir-row"><span class="rir-badge rir3">RIR 3+</span> Deload / recuperação</div>
+    </div>
+
+    <footer class="footer">
+      MATHIAS · PPLUL v5 · Mai 2026<br>
+      Foco: peito · costas · braços · abdômen
+    </footer>
+
+  </div>
+</div>
+
+<script>
+function updateHora() {
+  const el = document.getElementById('hora-atual');
+  if (!el) return;
+  const now = new Date();
+  const h = String(now.getHours()).padStart(2,'0');
+  const m = String(now.getMinutes()).padStart(2,'0');
+  el.textContent = h + ':' + m;
+}
+updateHora();
+setInterval(updateHora, 30000);
+
+const frases = [
+  ['A mente conduz,', 'o corpo <em>responde.</em>'],
+  ['Respira fundo.', 'Hoje você <em>aparece.</em>'],
+  ['Calma na cabeça,', 'força no <em>corpo.</em>'],
+  ['O melhor remédio', 'tem nome de <em>movimento.</em>'],
+  ['Disciplina hoje,', 'leveza <em>amanhã.</em>'],
+  ['Corpo forte,', 'mente <em>tranquila.</em>'],
+  ['Comece devagar.', 'Termine <em>inteiro.</em>'],
+];
+const f = frases[new Date().getDay() % frases.length];
+const q = document.getElementById('quote-frase');
+if (q) q.innerHTML = f[0] + ' ' + f[1];
+
+function showDay(day, el) {
+  document.querySelectorAll('.treino-block').forEach(b => b.classList.remove('visible'));
+  document.querySelectorAll('.day-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(day).classList.add('visible');
+  el.classList.add('active');
+}
+const map = {1:'seg',2:'ter',3:'qua',4:'qui',5:'sex'};
+const d = map[new Date().getDay()];
+if (d) {
+  const btn = document.querySelector(`.day-btn[onclick="showDay('${d}',this)"]`);
+  if (btn) { showDay(d, btn); }
+}
+
+function togglePrep(id) {
+  const content = document.getElementById(id);
+  const arrow = document.getElementById('arrow-' + id);
+  const isOpen = content.classList.contains('visible');
+  content.classList.toggle('visible', !isOpen);
+  arrow.classList.toggle('open', !isOpen);
+}
+</script>
+</body>
+</html>
